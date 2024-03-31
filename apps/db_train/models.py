@@ -10,7 +10,8 @@ class Author(models.Model):
         message="Телефонный номер должен быть формата: '+79123456789'."
     )
     username = models.SlugField(verbose_name='Имя аккаунта',
-                                help_text="Введите username, не длиннее 50 символов. Использовать нужно английский алфавит, разделять фразы нужно символом '-'")
+                                help_text="Введите username, не длиннее 50 символов. Использовать нужно английский алфавит, разделять фразы нужно символом '-'",
+                                unique=True,)
 
     email = models.EmailField(verbose_name='Адрес электронной почты',
                               help_text="Адрес почты в формате *@*.*",
@@ -98,12 +99,6 @@ class Author(models.Model):
 
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        initials = None  # Инициалы
-        if self.first_name and self.middle_name:
-            initials = f"{self.first_name.upper()[0]}.{self.middle_name.upper()[0]}."
-        return f"{self.username} - {self.last_name} {initials}"
 
     def __str__(self):
         initials = None  # Инициалы
