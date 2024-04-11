@@ -6,6 +6,8 @@ from .models import Author
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
 class AuthorREST(View):
     @csrf_exempt
@@ -148,3 +150,12 @@ class AuthorREST(View):
                                                    "indent": 4},
                                 )
 
+class AuthorGenericAPIView(GenericAPIView, ListModelMixin, CreateModelMixin):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
